@@ -1,8 +1,10 @@
 <div class="bg-gray-200 
             rounded-3xl p-8 shadow-lg 
             flex justify-between items-center
-            hover:shadow-2xl hover:scale-[1.04] 
-            transition duration-300 min-h-40">
+            hover:shadow-2xl hover:scale-[1.03]
+            active:scale-95
+            cursor-pointer
+            transition duration-300 min-h-48">
 
     <div>
         <h2 class="text-gray-600 text-lg">
