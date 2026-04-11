@@ -2,7 +2,7 @@
 
 @section('content')
 
-<h2 class="text-3xl font-bold mb-6 text-gray-800">
+<h2 class="text-3xl font-bold mb-6 text-gray-800 dark:text-white">
     Dashboard
 </h2>
 

@@ -24,33 +24,58 @@
 
     <!-- 🔥 SCRIPT DARK MODE (WAJIB ADA) -->
     <script>
-    document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function () {
 
-        const btn = document.getElementById("darkToggle");
-        const icon = document.getElementById("icon");
+    const toggle = document.getElementById("darkToggle");
+    const circle = document.getElementById("toggleCircle");
 
-        // load dari localStorage
-        if (localStorage.getItem("theme") === "dark") {
-            document.documentElement.classList.add("dark");
-            if (icon) icon.textContent = "☀️";
-        }
+    // cek localStorage
+    if (localStorage.getItem("theme") === "dark") {
+        document.documentElement.classList.add("dark");
+        circle.classList.add("translate-x-7");
+        circle.innerHTML = "☀️";
+    }
 
-        if (btn) {
-            btn.addEventListener("click", function () {
-                document.documentElement.classList.toggle("dark");
+    toggle.addEventListener("click", function () {
 
-                if (document.documentElement.classList.contains("dark")) {
-                    localStorage.setItem("theme", "dark");
-                    if (icon) icon.textContent = "☀️";
-                } else {
-                    localStorage.setItem("theme", "light");
-                    if (icon) icon.textContent = "🌙";
-                }
-            });
+        document.documentElement.classList.toggle("dark");
+
+        if (document.documentElement.classList.contains("dark")) {
+            localStorage.setItem("theme", "dark");
+            circle.classList.add("translate-x-7");
+            circle.innerHTML = "☀️";
+        } else {
+            localStorage.setItem("theme", "light");
+            circle.classList.remove("translate-x-7");
+            circle.innerHTML = "🌙";
         }
 
     });
-    </script>
+
+});
+</script>
+
+    <script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const btn = document.getElementById("userMenuBtn");
+    const menu = document.getElementById("dropdownMenu");
+
+    if (btn) {
+        btn.addEventListener("click", function () {
+            menu.classList.toggle("hidden");
+        });
+    }
+
+    // klik di luar = close
+    document.addEventListener("click", function (e) {
+        if (!btn.contains(e.target) && !menu.contains(e.target)) {
+            menu.classList.add("hidden");
+        }
+    });
+
+});
+</script>
 
 </body>
 </html>
