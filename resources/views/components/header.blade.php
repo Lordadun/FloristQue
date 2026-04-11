@@ -10,6 +10,61 @@
     <!-- RIGHT -->
     <div class="flex items-center gap-4">
 
+    <!-- SEARCH -->
+<div class="relative">
+
+    <input type="text" id="searchInput"
+           placeholder="Cari bunga..."
+           class="px-3 py-1.5 rounded-lg text-sm 
+                  bg-white/80 dark:bg-gray-700 
+                  text-black dark:text-white
+                  focus:outline-none">
+
+    <!-- RESULT -->
+    <div id="searchResult"
+         class="hidden absolute mt-2 w-full 
+                bg-white dark:bg-gray-800 
+                rounded-lg shadow-lg p-2 text-sm">
+    </div>
+
+</div>
+
+    <!-- NOTIFICATION -->
+<div class="relative">
+
+    <!-- ICON -->
+    <button id="notifBtn" class="relative text-white text-xl">
+        🔔
+        <span class="absolute -top-1 -right-2 bg-red-500 text-xs px-1 rounded-full">
+            3
+        </span>
+    </button>
+
+    <!-- DROPDOWN -->
+    <div id="notifMenu"
+         class="hidden absolute right-0 mt-2 w-64 
+                bg-white dark:bg-gray-800 
+                text-gray-800 dark:text-white 
+                rounded-lg shadow-lg p-3">
+
+        <p class="font-semibold mb-2">Notifikasi</p>
+
+        <ul class="text-sm space-y-2">
+            <li class="p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+                🌸 Stok mawar hampir habis
+            </li>
+            <li class="p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+                📦 Produk baru ditambahkan
+            </li>
+            <li class="p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+                👤 User baru mendaftar
+            </li>
+        </ul>
+
+    </div>
+
+</div>
+
         <!-- DARK MODE -->
         <div id="darkToggle"
      class="w-14 h-7 flex items-center bg-gray-200 dark:bg-gray-600 

@@ -77,5 +77,61 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 </script>
 
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const notifBtn = document.getElementById("notifBtn");
+    const notifMenu = document.getElementById("notifMenu");
+
+    if (notifBtn) {
+        notifBtn.addEventListener("click", function () {
+            notifMenu.classList.toggle("hidden");
+        });
+    }
+
+    document.addEventListener("click", function (e) {
+        if (!notifBtn.contains(e.target) && !notifMenu.contains(e.target)) {
+            notifMenu.classList.add("hidden");
+        }
+    });
+
+});
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const input = document.getElementById("searchInput");
+    const result = document.getElementById("searchResult");
+
+    const data = [
+        "Mawar Merah",
+        "Tulip Putih",
+        "Anggrek Ungu",
+        "Lily Kuning"
+    ];
+
+    input.addEventListener("input", function () {
+        const value = input.value.toLowerCase();
+
+        if (value === "") {
+            result.classList.add("hidden");
+            return;
+        }
+
+        const filtered = data.filter(item =>
+            item.toLowerCase().includes(value)
+        );
+
+        result.innerHTML = filtered.map(item =>
+            `<div class="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer">${item}</div>`
+        ).join("");
+
+        result.classList.remove("hidden");
+    });
+
+});
+</script>
+
 </body>
 </html>
