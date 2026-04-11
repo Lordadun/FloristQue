@@ -13,121 +13,194 @@
     @include('components.header')
 
     <div class="flex">
-        @include('components.sidebar')
 
-        <main class="flex-1 p-6">
+    @include('components.sidebar')
+
+    <main class="flex-1 mt-20 p-6 ml-64">
+        <div class="max-w-8xl mx-auto">
             @yield('content')
-        </main>
-    </div>
+        </div>
+    </main>
+
+</div>
 
     @include('components.footer')
 
-    <!-- 🔥 SCRIPT DARK MODE (WAJIB ADA) -->
     <script>
 document.addEventListener("DOMContentLoaded", function () {
 
+    // ================= DARK MODE =================
     const toggle = document.getElementById("darkToggle");
     const circle = document.getElementById("toggleCircle");
 
-    // cek localStorage
+    // load dari localStorage
     if (localStorage.getItem("theme") === "dark") {
         document.documentElement.classList.add("dark");
-        circle.classList.add("translate-x-7");
+        circle.classList.add("translate-x-6");
         circle.innerHTML = "☀️";
     }
 
-    toggle.addEventListener("click", function () {
-
+    toggle.addEventListener("click", () => {
         document.documentElement.classList.toggle("dark");
 
-        if (document.documentElement.classList.contains("dark")) {
-            localStorage.setItem("theme", "dark");
-            circle.classList.add("translate-x-7");
+        const isDark = document.documentElement.classList.contains("dark");
+
+        // save
+        localStorage.setItem("theme", isDark ? "dark" : "light");
+
+        // animasi
+        if (isDark) {
+            circle.classList.add("translate-x-6");
             circle.innerHTML = "☀️";
         } else {
-            localStorage.setItem("theme", "light");
-            circle.classList.remove("translate-x-7");
+            circle.classList.remove("translate-x-6");
             circle.innerHTML = "🌙";
         }
 
-    });
-
-});
-</script>
-
-    <script>
-document.addEventListener("DOMContentLoaded", function () {
-
-    const btn = document.getElementById("userMenuBtn");
-    const menu = document.getElementById("dropdownMenu");
-
-    if (btn) {
-        btn.addEventListener("click", function () {
-            menu.classList.toggle("hidden");
-        });
-    }
-
-    // klik di luar = close
-    document.addEventListener("click", function (e) {
-        if (!btn.contains(e.target) && !menu.contains(e.target)) {
-            menu.classList.add("hidden");
+        // update chart TANPA destroy
+        if (window.salesChart) {
+            window.salesChart.options.plugins.legend.labels.color = isDark ? '#fff' : '#000';
+            window.salesChart.options.scales.x.ticks.color = isDark ? '#fff' : '#000';
+            window.salesChart.options.scales.y.ticks.color = isDark ? '#fff' : '#000';
+            window.salesChart.update();
         }
     });
 
-});
-</script>
+    // ================= DROPDOWN =================
+    function toggleDropdown(btnId, menuId) {
+        const btn = document.getElementById(btnId);
+        const menu = document.getElementById(menuId);
 
-<script>
-document.addEventListener("DOMContentLoaded", function () {
+        btn.addEventListener("click", () => {
+            const isOpen = menu.classList.contains("opacity-100");
 
-    const notifBtn = document.getElementById("notifBtn");
-    const notifMenu = document.getElementById("notifMenu");
+            if (isOpen) {
+                menu.classList.remove("opacity-100", "scale-100");
+                menu.classList.add("opacity-0", "scale-95", "pointer-events-none");
+            } else {
+                menu.classList.remove("opacity-0", "scale-95", "pointer-events-none");
+                menu.classList.add("opacity-100", "scale-100");
+            }
+        });
 
-    if (notifBtn) {
-        notifBtn.addEventListener("click", function () {
-            notifMenu.classList.toggle("hidden");
+        document.addEventListener("click", (e) => {
+            if (!btn.contains(e.target) && !menu.contains(e.target)) {
+                menu.classList.remove("opacity-100", "scale-100");
+                menu.classList.add("opacity-0", "scale-95", "pointer-events-none");
+            }
         });
     }
 
-    document.addEventListener("click", function (e) {
-        if (!notifBtn.contains(e.target) && !notifMenu.contains(e.target)) {
-            notifMenu.classList.add("hidden");
-        }
-    });
+    toggleDropdown("notifBtn", "notifMenu");
+    toggleDropdown("userMenuBtn", "dropdownMenu");
 
-});
-</script>
-
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-
+    // ================= SEARCH =================
     const input = document.getElementById("searchInput");
-    const result = document.getElementById("searchResult");
+    const resultBox = document.getElementById("searchResult");
 
-    const data = [
+    const dataBunga = [
         "Mawar Merah",
-        "Tulip Putih",
+        "Mawar Putih",
+        "Tulip Pink",
         "Anggrek Ungu",
-        "Lily Kuning"
+        "Lily Putih",
+        "Buket Wisuda",
+        "Buket Wedding"
     ];
 
     input.addEventListener("input", function () {
-        const value = input.value.toLowerCase();
+        const keyword = this.value.toLowerCase();
 
-        if (value === "") {
-            result.classList.add("hidden");
+        if (!keyword) {
+            resultBox.classList.add("hidden");
             return;
         }
 
-        const filtered = data.filter(item =>
-            item.toLowerCase().includes(value)
+        const filtered = dataBunga.filter(item =>
+            item.toLowerCase().includes(keyword)
         );
 
-        result.innerHTML = filtered.map(item =>
-            `<div class="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer">${item}</div>`
-        ).join("");
+        resultBox.innerHTML = filtered.map(item => `
+            <div class="p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer">
+                🌸 ${item}
+            </div>
+        `).join("");
 
-        result.classList.remove("hidden");
+        resultBox.classList.remove("hidden");
+    });
+
+    resultBox.addEventListener("click", function(e){
+        input.value = e.target.innerText;
+        resultBox.classList.add("hidden");
+    });
+
+});
+</script>
+
+<!-- Chart.js CDN -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<!-- SCRIPT CHART -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const canvas = document.getElementById('salesChart');
+
+    // kalau bukan halaman dashboard → skip
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+
+    const isDark = document.documentElement.classList.contains('dark');
+
+    const gradient = ctx.createLinearGradient(0, 0, 0, 300);
+    gradient.addColorStop(0, "rgba(236, 72, 153, 0.6)");
+    gradient.addColorStop(1, "rgba(236, 72, 153, 0)");
+
+    window.salesChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun'],
+            datasets: [
+                {
+                    label: 'Penjualan',
+                    data: [12, 19, 8, 15, 20, 25],
+                    borderColor: '#ec4899',
+                    backgroundColor: gradient,
+                    fill: true,
+                    tension: 0.4
+                },
+                {
+                    label: 'Produk Terjual',
+                    data: [8, 14, 5, 10, 18, 22],
+                    borderColor: '#3b82f6',
+                    backgroundColor: 'transparent',
+                    tension: 0.4
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    labels: {
+                        color: isDark ? '#fff' : '#000'
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    ticks: {
+                        color: isDark ? '#fff' : '#000'
+                    }
+                },
+                y: {
+                    ticks: {
+                        color: isDark ? '#fff' : '#000'
+                    }
+                }
+            }
+        }
     });
 
 });
