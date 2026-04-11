@@ -1,8 +1,35 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
+
+Route::get('/login', function () {
+    return view('auth.login');
+})->name('login');
+
+Route::post('/login', function (Request $request) {
+
+    $email = $request->email;
+    $password = $request->password;
+
+    // LOGIN SEDERHANA
+    if ($email === 'admin@gmail.com' && $password === '123456') {
+        session(['user' => $email]);
+        return redirect('/');
+    }
+
+    return back()->with('error', 'Email atau password salah');
+});
+
+Route::get('/logout', function () {
+    session()->forget('user');
+    return redirect('/login');
+});
 
 Route::get('/', function () {
+    if (!session('user')) {
+        return redirect('/login');
+    }
     return view('dashboard');
 });
 
