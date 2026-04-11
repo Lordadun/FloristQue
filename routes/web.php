@@ -13,7 +13,7 @@ Route::post('/login', function (Request $request) {
     $password = $request->password;
 
     // LOGIN SEDERHANA
-    if ($email === 'admin@gmail.com' && $password === '123456') {
+    if ($email === 'floristque@gmail.com' && $password === 'Haidar Ganteng') {
         session(['user' => $email]);
         return redirect('/');
     }
