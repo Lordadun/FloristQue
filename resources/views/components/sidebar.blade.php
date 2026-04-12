@@ -1,13 +1,16 @@
-<aside class="fixed top-16 left-2 w-64 h-[calc(100vh-64px)]
+<aside id="sidebar"
+       class="fixed top-16 left-0 w-64 h-[calc(100vh-64px)]
               bg-white/80 backdrop-blur-md
               dark:bg-gray-900/80
               text-gray-800 dark:text-white
-              shadow-md flex flex-col pt-8 px-3 rounded-xl">
+              shadow-md flex flex-col
+              p-4">
 
     <!-- PROFILE USER -->
-    <div class="flex items-center gap-3 mb-6 p-3 
-                bg-white dark:bg-gray-800 
-                rounded-xl shadow-sm hover:shadow-md transition">
+    <div class="flex items-center gap-3 mb-6 p-3 mt-2
+            mx-1
+            bg-white dark:bg-gray-800 
+            rounded-xl shadow-sm hover:shadow-md transition">
 
         <img src="{{ asset('images/profile.jpg') }}" 
              class="w-12 h-12 rounded-full object-cover border-2 border-pink-400">

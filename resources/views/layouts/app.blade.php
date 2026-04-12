@@ -16,7 +16,7 @@
 
     @include('components.sidebar')
 
-    <main class="flex-1 mt-20 p-6 ml-64">
+    <main class="mt-20 md:ml-64 px-4 md:px-6 w-full">
         <div class="max-w-8xl mx-auto">
             @yield('content')
         </div>
@@ -203,6 +203,17 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
+});
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const btn = document.getElementById("menuBtn");
+    const sidebar = document.getElementById("sidebar");
+
+    btn.addEventListener("click", () => {
+        sidebar.classList.toggle("-translate-x-full");
+    });
 });
 </script>
 

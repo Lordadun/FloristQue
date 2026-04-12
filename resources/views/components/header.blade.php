@@ -6,8 +6,13 @@
 
     <!-- LEFT -->
     <div class="flex items-center gap-3">
+        <button id="menuBtn"
+        class="md:hidden text-xl p-2 rounded-lg 
+               hover:bg-gray-100 dark:hover:bg-gray-800">
+    ☰
+</button>
         <span class="text-xl">🌸</span>
-        <h1 class="text-xl font-semibold text-gray-800 dark:text-white">
+        <h1 class="text-3xl font-bold text-gray-800 dark:text-white">
             FloristQue
         </h1>
     </div>
