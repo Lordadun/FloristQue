@@ -43,7 +43,7 @@ Route::get('/', function () {
     if (!session('user')) {
         return redirect('/login');
     }
-    return view('dashboard');
+    return view('dashboard.dashboard');
 });
 
 /*
@@ -70,7 +70,6 @@ Route::get('/penjualan', function () {
 
 Route::get('/pendapatan', function () {
     return "Halaman Pendapatan";
-});
 });
 
 Route::get('/produk', function () {
