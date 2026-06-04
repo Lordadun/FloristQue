@@ -11,10 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('transaksis', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-        });
+          Schema::create('transaksis', function (Blueprint $table) {
+        $table->id();
+        $table->string('kode_transaksi')->unique();
+        $table->foreignId('cabang_id')->constrained('cabangs')->cascadeOnDelete();
+        $table->foreignId('kasir_id')->constrained('users')->cascadeOnDelete();
+        $table->integer('total');
+        $table->integer('bayar');
+        $table->integer('kembalian');
+        $table->dateTime('tanggal_transaksi');
+        $table->timestamps();
+    });
     }
 
     /**
