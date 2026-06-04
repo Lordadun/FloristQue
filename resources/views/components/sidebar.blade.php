@@ -7,11 +7,9 @@
                 bg-white dark:bg-gray-800 
                 rounded-xl shadow-sm hover:shadow-md transition">
 
-        <!-- Avatar -->
         <img src="{{ asset('images/profile.jpg') }}" 
              class="w-12 h-12 rounded-full object-cover border-2 border-pink-400">
 
-        <!-- Info -->
         <div>
             <h2 class="text-sm font-semibold text-gray-800 dark:text-white">
                 Reihan Xander
@@ -32,25 +30,24 @@
     <ul class="space-y-2">
 
         <li>
-            <a href="/" class="flex items-center gap-2 
-                              bg-gray-300 dark:bg-gray-700 
-                              text-pink-600 p-2 rounded-lg font-semibold">
+            <a href="{{ url('/') }}" 
+               class="flex items-center gap-2 p-2 rounded-lg transition
+               {{ request()->is('/') ? 'bg-gray-300 dark:bg-gray-700 text-pink-600 font-semibold' : 'hover:bg-pink-100 dark:hover:bg-gray-700' }}">
                 📊 Dashboard
             </a>
         </li>
 
         <li>
-            <a href="#" class="flex items-center gap-2 p-2 
-                              hover:bg-pink-100 dark:hover:bg-gray-700 
-                              rounded-lg transition">
+            <a href="{{ route('products.index') }}" 
+               class="flex items-center gap-2 p-2 rounded-lg transition
+               {{ request()->is('products*') ? 'bg-gray-300 dark:bg-gray-700 text-pink-600 font-semibold' : 'hover:bg-pink-100 dark:hover:bg-gray-700' }}">
                 🌸 Produk
             </a>
         </li>
 
         <li>
-            <a href="#" class="flex items-center gap-2 p-2 
-                              hover:bg-pink-100 dark:hover:bg-gray-700 
-                              rounded-lg transition">
+            <a href="#" 
+               class="flex items-center gap-2 p-2 hover:bg-pink-100 dark:hover:bg-gray-700 rounded-lg transition">
                 👤 User
             </a>
         </li>

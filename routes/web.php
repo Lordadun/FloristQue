@@ -2,6 +2,13 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
+use App\Http\Controllers\ProductController;
+
+/*
+|--------------------------------------------------------------------------
+| LOGIN
+|--------------------------------------------------------------------------
+*/
 
 Route::get('/login', function () {
     return view('auth.login');
@@ -26,6 +33,12 @@ Route::get('/logout', function () {
     return redirect('/login');
 });
 
+/*
+|--------------------------------------------------------------------------
+| DASHBOARD
+|--------------------------------------------------------------------------
+*/
+
 Route::get('/', function () {
     if (!session('user')) {
         return redirect('/login');
@@ -33,9 +46,19 @@ Route::get('/', function () {
     return view('dashboard');
 });
 
-Route::get('/produk', function () {
-    return "Halaman Produk";
-});
+/*
+|--------------------------------------------------------------------------
+| CRUD PRODUCTS
+|--------------------------------------------------------------------------
+*/
+
+Route::resource('products', ProductController::class);
+
+/*
+|--------------------------------------------------------------------------
+| MENU LAINNYA
+|--------------------------------------------------------------------------
+*/
 
 Route::get('/pesanan', function () {
     return "Halaman Pesanan";

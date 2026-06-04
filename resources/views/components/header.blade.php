@@ -4,9 +4,9 @@
 
     <div class="flex items-center gap-3">
 
-        <span class="text-white text-sm">
+        <!-- <span class="text-white text-sm">
             {{ session('user') }}
-        </span>
+        </span> -->
 
         <a href="/logout" class="bg-white text-black px-3 py-1 rounded-lg text-sm">
             Logout

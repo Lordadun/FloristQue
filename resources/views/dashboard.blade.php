@@ -8,7 +8,7 @@
 
 <div class="grid grid-cols-2 gap-8">
 
-    <a href="/produk">
+    <a href="{{ route('products.index') }}">
         <x-card title="Jumlah Produk" image="{{ asset('images/flower.png') }}">
             120
         </x-card>
