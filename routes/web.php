@@ -1,50 +1,41 @@
 <?php
-
 use Illuminate\Support\Facades\Route;
-use Illuminate\Http\Request;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\CabangController;
+use App\Http\Controllers\KategoriController;
+use App\Http\Controllers\ProdukController;
+use App\Http\Controllers\StokBarangController;
+use App\Http\Controllers\StokMasukController;
+use App\Http\Controllers\TransaksiController;
+use App\Http\Controllers\LaporanController;
 
-Route::get('/login', function () {
-    return view('auth.login');
-})->name('login');
-
-Route::post('/login', function (Request $request) {
-
-    $email = $request->email;
-    $password = $request->password;
-
-    // LOGIN SEDERHANA
-    if ($email === 'floristque@gmail.com' && $password === 'Haidar Ganteng') {
-        session(['user' => $email]);
-        return redirect('/');
-    }
-
-    return back()->with('error', 'Email atau password salah');
-});
-
-Route::get('/logout', function () {
-    session()->forget('user');
+Route::get('/', function () {
     return redirect('/login');
 });
 
-Route::get('/', function () {
-    if (!session('user')) {
-        return redirect('/login');
-    }
-    return view('dashboard');
-});
+Route::middleware(['auth'])->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-Route::get('/produk', function () {
-    return "Halaman Produk";
-});
+    Route::middleware(['role:owner'])->group(function () {
+        Route::resource('/cabangs', CabangController::class);
+    });
 
-Route::get('/pesanan', function () {
-    return "Halaman Pesanan";
-});
+    Route::middleware(['role:owner,manajer'])->group(function () {
+        Route::resource('/kategoris', KategoriController::class);
+        Route::resource('/produks', ProdukController::class);
+        Route::get('/laporan/transaksi', [LaporanController::class, 'transaksi'])->name('laporan.transaksi');
+        Route::get('/laporan/stok', [LaporanController::class, 'stok'])->name('laporan.stok');
+    });
 
-Route::get('/penjualan', function () {
-    return "Halaman Penjualan";
-});
+    Route::middleware(['role:kasir'])->group(function () {
+        Route::resource('/transaksis', TransaksiController::class);
+    });
 
-Route::get('/pendapatan', function () {
-    return "Halaman Pendapatan";
+    Route::middleware(['role:gudang'])->group(function () {
+        Route::resource('/stok-masuk', StokMasukController::class);
+    });
+
+    Route::middleware(['role:owner,manajer,supervisor,gudang'])->group(function () {
+        Route::resource('/stok-barangs', StokBarangController::class);
+    });
 });
