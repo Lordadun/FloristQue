@@ -49,3 +49,6 @@ Route::get('/pendapatan', function () {
     return "Halaman Pendapatan";
 });
 
+Route::get('/produk', function () {
+    return view('produk.index');
+})->name('produk');
