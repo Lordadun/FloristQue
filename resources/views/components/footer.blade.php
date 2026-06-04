@@ -1,3 +1,3 @@
-<footer class="bg-white text-center p-4 mt-6 shadow">
-    © 2026 FloristQue
+<footer class="text-center text-sm text-gray-500 dark:text-gray-400 py-4">
+    © {{ date('Y') }} FloristQue
 </footer>
